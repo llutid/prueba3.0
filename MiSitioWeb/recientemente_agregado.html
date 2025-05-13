@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Recién Agregado - Llutid+</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1a1a1a; /* Fondo oscuro */
+            font-family: 'Roboto', sans-serif;
+            color: #e0e0e0; /* Texto gris claro */
+            overflow-x: hidden;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Pantalla de inicio */
+        .intro-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #00bfff;
+            opacity: 0;
+            animation: aparecer 2s ease forwards, desaparecer 1s ease forwards 4s;
+            text-shadow: 0 0 10px #00bfff88, 0 0 20px #00bfff44;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 4px;
+        }
+
+        .logo-container span {
+            color: white;
+        }
+
+        @keyframes aparecer {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes desaparecer {
+            to {
+                opacity: 0;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Main content */
+        .main-content {
+            display: none;
+            padding-top: 20px;
+        }
+
+        /* Barra fija */
+        .sticky-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(26, 26, 26, 0.9); /* Fondo oscuro con transparencia */
+            padding: 15px 20px;
+            z-index: 100;
+            backdrop-filter: blur(10px); /* Efecto de desenfoque */
+            box-shadow: 0 4px 10px rgba(0, 191, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-bar h1 {
+            font-size: 2.5rem;
+            color: #00bfff;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 5px;
+            margin-bottom: 0;
+            margin-right: 20px;
+        }
+
+        .logo-bar h1 span {
+            color: white;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .sticky-bar input {
+            padding: 12px 20px;
+            width: 200px;
+            font-size: 16px;
+            border-radius: 25px;
+            border: 1px solid #666; /* Borde más sutil */
+            outline: none;
+            background-color: #333; /* Fondo más oscuro */
+            color: #fff;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .sticky-bar input:focus {
+            border-color: #00bfff;
+            box-shadow: 0 0 8px rgba(0, 191, 255, 0.5);
+        }
+
+        .sticky-bar input::placeholder {
+            color: #999;
+        }
+
+        /* Icono del menú */
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .menu-icon div {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Menú desplegable */
+        .menu-dropdown {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(26, 26, 26, 0.95); /* Fondo oscuro con más transparencia */
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: -8px 8px 10px rgba(0, 191, 255, 0.1); /* Sombra más sutil */
+            z-index: 101;
+            border-radius: 5px;
+        }
+
+        .menu-dropdown a {
+            color: #ddd; /* Color de enlace más claro */
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            text-align: center;
+            display: block;
+        }
+
+        .menu-dropdown a:hover {
+            color: #00bfff;
+        }
+
+        /* Video Header */
+        .video-header {
+            width: 100%;
+            max-height: 500px; /* Aumenta la altura */
+            overflow: hidden;
+            margin-bottom: 40px; /* Más espacio */
+            border-bottom: 2px solid #444; /* Línea más fina */
+        }
+
+        .video-header video {
+            width: 100%;
+            display: block;
+            object-fit: cover; /* Para que el video se ajuste al contenedor */
+        }
+
+        /* Catálogo de Recién Agregado */
+        .catalogo-recien-agregado-container {
+            padding: 30px; /* Más espacio */
+            margin-bottom: 40px;
+            border-bottom: 1px solid #444; /* Línea más fina */
+        }
+
+        .catalogo-recien-agregado-container h2 {
+            color: #00bfff;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 20px; /* Más espacio */
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        .catalogo-recien-agregado-container h2 span {
+            color: white;
+        }
+
+        .peliculas-recien-agregadas-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Aumenta el ancho mínimo */
+            gap: 25px; /* Más espacio */
+            padding-bottom: 25px;
+        }
+
+        .pelicula-recien-agregada {
+            background-color: #333; /* Fondo más oscuro */
+            border-radius: 12px; /* Bordes más redondeados */
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.1); /* Sombra más sutil */
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pelicula-recien-agregada:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 191, 255, 0.2); /* Sombra más pronunciada al pasar el ratón */
+        }
+
+        .pelicula-recien-agregada a {
+            text-decoration: none;
+            display: block;
+            height: 100%; /* Para que el enlace cubra todo el contenedor */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Espaciar la imagen y la info */
+        }
+
+        .pelicula-recien-agregada img {
+            width: 100%;
+            height: 280px; /* Aumenta la altura */
+            object-fit: cover;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            margin-bottom: 10px; /* Espacio para la info */
+        }
+
+        .pelicula-info {
+            padding: 10px 15px 15px 15px;
+            text-align: left;
+        }
+
+        .pelicula-info p {
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-bottom: 5px;
+        }
+
+        .pelicula-info p strong {
+            color: #eee;
+        }
+
+        .pelicula-info .titulo {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #f0f0f0;
+            margin-bottom: 8px;
+        }
+
+        /* Enlace de Administrador */
+        .admin-link {
+            text-align: center;
+            margin-top: 30px; /* Más espacio */
+            opacity: 0.8; /* Más visible */
+            font-size: 1rem;
+        }
+
+        .admin-link a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .admin-link a:hover {
+            color: #00bfff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sticky-bar {
+                padding: 10px;
+            }
+
+            .logo-bar h1 {
+                font-size: 2rem;
+                margin-right: 10px;
+            }
+
+            .sticky-bar input {
+                width: 150px;
+                font-size: 14px;
+            }
+
+            .menu-dropdown {
+                top: 50px;
+                right: 10px;
+                padding: 15px;
+            }
+
+            .menu-dropdown a {
+                font-size: 1rem;
+            }
+
+            .video-header {
+                max-height: 350px;
+                margin-bottom: 20px;
+            }
+
+            .catalogo-recien-agregado-container {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .catalogo-recien-agregado-container h2 {
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+
+            .peliculas-recien-agregadas-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+                padding-bottom: 15px;
+            }
+
+            .pelicula-recien-agregada img {
+                height: 200px;
+                margin-bottom: 10px;
+            }
+
+            .pelicula-info .titulo {
+                font-size: 1rem;
+                margin-bottom: 5px;
+            }
+
+            .pelicula-info p {
+                font-size: 0.8rem;
+                margin-bottom: 3px;
+            }
+
+            .admin-link {
+                margin-top: 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .logo-bar h1 {
+                font-size: 1.7rem;
+            }
+
+            .sticky-bar input {
+                display: none; /* Ocultar el buscador en pantallas pequeñas */
+            }
+
+            .menu-dropdown {
+                right: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="intro-screen">
+        <div class="logo-container">Llutid<span>+</span></div>
+    </div>
+
+    <div class="main-content">
+
+        <div class="sticky-bar">
+            <div class="logo-bar">
+                <h1>Llutid<span>+</span></h1>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Buscar película..." onkeyup="buscarPelicula()">
+                <div class="menu-icon" onclick="toggleMenu()">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-dropdown" id="menuDropdown">
+            <a href="index.html">HOME</a>
+            <a href="recientemente_agregado.html">RECIEN AGREGADO</a>
+            <a href="proximos_lanzamientos.html">PROXIMAS EN LANZAMIENTO</a>
+            <a href="streaming_nuevos.html">EN VIVO STREAMING DE NUEVAS LANZAMIENTOS</a>
+        </div>
+
+        <div class="video-header">
+            <video src="videos/tu_video.mp4" autoplay loop controls></video>
+        </div>
+
+        <div class="catalogo-recien-agregado-container">
+            <h2>Películas Recién Agregadas a Llutid<span>+</span></h2>
+            <div class="peliculas-recien-agregadas-list" id="movie-container">
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/DfH1cd7w/o3413284-16754682.png" alt="Intensamente 2">
+                        <div class="pelicula-info">
+                            <p class="titulo">Intensamente 2</p>
+                            <p><strong>Lanzamiento:</strong> 19 de Junio de 2024</p>
+                            <p><strong>Hora:</strong> 21:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 36min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/rsrWDzWH/rubias.png" alt="Las Rubias">
+                        <div class="pelicula-info">
+                            <p class="titulo">¿Y dónde están las rubias?</p>
+                            <p><strong>Lanzamiento:</strong> 04 de Junio de 2004</p>
+                            <p><strong>Hora:</strong> 19:30 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 49min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/Pfg1hc0M/virus.png" alt="Virus">
+                        <div class="pelicula-info">
+                            <p class="titulo">Virus</p>
+                            <p><strong>Lanzamiento:</strong> 13 de Febrero de 2020</p>
+                            <p><strong>Hora:</strong> 20:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 29min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/J0D3jpwP/ole-viaje-de-ferdinad.png" alt="Olé, El Viaje de Ferdinand">
+                        <div class="pelicula-info">
+                            <p class="titulo">Olé, El Viaje de Ferdinand</p>
+                            <p><strong>Lanzamiento:</strong> 15 de Diciembre de 2017</p>
+                            <p><strong>Hora:</strong> 18:45 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 48min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/0Q3DzHjP/sgt-stuby.png" alt="Sgt. Stubby">
+                        <div class="pelicula-info">
+                            <p class="titulo">Sgt. Stubby: Un héroe muy especial</p>
+                            <p><strong>Lanzamiento:</strong> 13 de Abril de 2018</p>
+                            <p><strong>Hora:</strong> 20:30 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 24min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/WzWKqVrt/un-don-exepcional.png" alt="Un Don Excepcional">
+                        <div class="pelicula-info">
+                            <p class="titulo">Un Don Excepcional</p>
+                            <p><strong>Lanzamiento:</strong> 07 de Abril de 2017</p>
+                            <p><strong>Hora:</strong> 21:15 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 41min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/3rj42RdP/en-pie-de-guerra.png" alt="En Pie de Guerra">
+                        <div class="pelicula-info">
+                            <p class="titulo">En Pie de Guerra</p>
+                            <p><strong>Lanzamiento:</strong> 26 de Octubre de 2001</p>
+                            <p><strong>Hora:</strong> 19:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 2h 1min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/K8j1XDJ2/tiburon-toro-2.png" alt="Tiburón Toro 2">
+                        <div class="pelicula-info">
+                            <p class="titulo">Tiburón Toro 2</p>
+                            <p><strong>Lanzamiento:</strong> 16 de Agosto de 2024</p>
+                            <p><strong>Hora:</strong> 22:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 33min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/Y2x0hsP7/la-razon-1.png" alt="La Razón de Estar Contigo 1">
+                        <div class="pelicula-info">
+                            <p class="titulo">La Razón de Estar Contigo 1</p>
+                            <p><strong>Lanzamiento:</strong> 27 de Enero de 2017</p>
+                            <p><strong>Hora:</strong> 18:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 2h 0min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/J46hQBmd/la-razon-2.png" alt="La Razón de Estar Contigo 2">
+                        <div class="pelicula-info">
+                            <p class="titulo">La Razón de Estar Contigo 2</p>
+                            <p><strong>Lanzamiento:</strong> 10 de Mayo de 2019</p>
+                            <p><strong>Hora:</strong> 20:45 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 49min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/GpYhr7DZ/terrifer-1.png" alt="Terrifier 1">
+                        <div class="pelicula-info">
+                            <p class="titulo">Terrifier 1</p>
+                            <p><strong>Lanzamiento:</strong> 06 de Octubre de 2016</p>
+                            <p><strong>Hora:</strong> 23:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 24min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/C5vwJWyf/la-exorcista.png" alt="La Exorcista">
+                        <div class="pelicula-info">
+                            <p class="titulo">La Exorcista</p>
+                            <p><strong>Lanzamiento:</strong> 26 de Diciembre de 1973</p>
+                            <p><strong>Hora:</strong> 21:30 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 2h 2min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/XvDqpjSG/result-el-retador.jpg" alt="EL Retador">
+                        <div class="pelicula-info">
+                            <p class="titulo">EL Retador</p>
+                            <p><strong>Lanzamiento:</strong> 05 de Abril de 2024</p>
+                            <p><strong>Hora:</strong> 19:45 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 53min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/Qdmv7p3H/paseo-5.png" alt="El Paseo 5">
+                        <div class="pelicula-info">
+                            <p class="titulo">El Paseo 5</p>
+                            <p><strong>Lanzamiento:</strong> 25 de Diciembre de 2015</p>
+                            <p><strong>Hora:</strong> 17:30 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 30min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/6ptyPbf3/result-el-paseo-6.png" alt="El Paseo 6">
+                        <div class="pelicula-info">
+                            <p class="titulo">El Paseo 6</p>
+                            <p><strong>Lanzamiento:</strong> 25 de Diciembre de 2021</p>
+                            <p><strong>Hora:</strong> 20:15 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 35min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/5ttTS64p/paseo-7.png" alt="El Paseo 7">
+                        <div class="pelicula-info">
+                            <p class="titulo">El Paseo 7</p>
+                            <p><strong>Lanzamiento:</strong> 25 de Diciembre de 2023</p>
+                            <p><strong>Hora:</strong> 18:30 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 40min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/15xgG3gD/result-vals.jpg" alt="vals">
+                        <div class="pelicula-info">
+                            <p class="titulo">vals</p>
+                            <p><strong>Lanzamiento:</strong> 17 de Abril de 2020</p>
+                            <p><strong>Hora:</strong> 22:30 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 58min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/BQshCXND/dios-cambio-su-vida.png" alt="Dios Cambió su Vida">
+                        <div class="pelicula-info">
+                            <p class="titulo">Dios Cambió su Vida</p>
+                            <p><strong>Lanzamiento:</strong> 01 de Enero de 2025</p>
+                            <p><strong>Hora:</strong> 19:15 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 17min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/T1VgLD5J/result-la-pasion-de-cristo.jpg" alt="La Pasión de Cristo">
+                        <div class="pelicula-info">
+                            <p class="titulo">La Pasión de Cristo</p>
+                            <p><strong>Lanzamiento:</strong> 26 de Marzo de 2004</p>
+                            <p><strong>Hora:</strong> 20:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 2h 7min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/QCnrc15Q/encanto.png" alt="Encanto">
+                        <div class="pelicula-info">
+                            <p class="titulo">Encanto</p>
+                            <p><strong>Lanzamiento:</strong> 24 de Noviembre de 2021</p>
+                            <p><strong>Hora:</strong> 17:45 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 39min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/tCYbpvQ2/un-gran-chico.png" alt="Un Gran Chico">
+                        <div class="pelicula-info">
+                            <p class="titulo">Un Gran Chico</p>
+                            <p><strong>Lanzamiento:</strong> 17 de Mayo de 2002</p>
+                            <p><strong>Hora:</strong> 21:45 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 41min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/0ySqJ6NS/camp-cool-kids.png" alt="Camp Cool Kids">
+                        <div class="pelicula-info">
+                            <p class="titulo">Camp Cool Kids</p>
+                            <p><strong>Lanzamiento:</strong> 08 de Septiembre de 2017</p>
+                            <p><strong>Hora:</strong> 18:15 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 30min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/BQC2J20q/result-el-robo-perfecto.png" alt="El robo perfecto">
+                        <div class="pelicula-info">
+                            <p class="titulo">El robo perfecto</p>
+                            <p><strong>Lanzamiento:</strong> 14 de Marzo de 2019</p>
+                            <p><strong>Hora:</strong> 20:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 37min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/fL84hm8G/asalto-al-furgon.png" alt="El Gran Asalto">
+                        <div class="pelicula-info">
+                            <p class="titulo">El Gran Asalto</p>
+                            <p><strong>Lanzamiento:</strong> 19 de Febrero de 2004</p>
+                            <p><strong>Hora:</strong> 22:15 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 31min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/66GsP2dm/patos.png" alt="Patos">
+                        <div class="pelicula-info">
+                            <p class="titulo">Patos</p>
+                            <p><strong>Lanzamiento:</strong> 22 de Diciembre de 2023</p>
+                            <p><strong>Hora:</strong> 19:30 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 31min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/0j4LzxRZ/fautland.png" alt="Viaje Mágico">
+                        <div class="pelicula-info">
+                            <p class="titulo">Viaje Mágico</p>
+                            <p><strong>Lanzamiento:</strong> 19 de Noviembre de 2020</p>
+                            <p><strong>Hora:</strong> 17:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 45min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/zXLs9LKQ/hacker.png" alt="Hacker">
+                        <div class="pelicula-info">
+                            <p class="titulo">Hacker</p>
+                            <p><strong>Lanzamiento:</strong> 02 de Diciembre de 2016</p>
+                            <p><strong>Hora:</strong> 21:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 35min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/g2snbygK/result-reveldes-a-los-16.jpg" alt="Reveldes a Los 16">
+                        <div class="pelicula-info">
+                            <p class="titulo">Reveldes a Los 16</p>
+                            <p><strong>Lanzamiento:</strong> 28 de Agosto de 2015</p>
+                            <p><strong>Hora:</strong> 18:45 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 32min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/GtnXV2CW/hombre-ara-a.png" alt="Hombre Araña">
+                        <div class="pelicula-info">
+                            <p class="titulo">Hombre Araña</p>
+                            <p><strong>Lanzamiento:</strong> 07 de Julio de 2017</p>
+                            <p><strong>Hora:</strong> 20:30 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 2h 13min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/tJ8MX5WM/perro-rokero-2.png" alt="Perro Rokero 2">
+                        <div class="pelicula-info">
+                            <p class="titulo">Perro Rokero 2</p>
+                            <p><strong>Lanzamiento:</strong> 24 de Mayo de 2019</p>
+                            <p><strong>Hora:</strong> 17:15 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 27min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/nhR7DZrg/result-TURISTAS.jpg" alt="Turistas">
+                        <div class="pelicula-info">
+                            <p class="titulo">Turistas</p>
+                            <p><strong>Lanzamiento:</strong> 01 de Diciembre de 2006</p>
+                            <p><strong>Hora:</strong> 23:15 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 33min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/V6gwL3kH/el-voto.png" alt="El Voto">
+                        <div class="pelicula-info">
+                            <p class="titulo">El Voto</p>
+                            <p><strong>Lanzamiento:</strong> 28 de Mayo de 2010</p>
+                            <p><strong>Hora:</strong> 19:00 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 44min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/J4nrt4J3/instakiller.png" alt="Instakiller">
+                        <div class="pelicula-info">
+                            <p class="titulo">Instakiller</p>
+                            <p><strong>Lanzamiento:</strong> 09 de Agosto de 2019</p>
+                            <p><strong>Hora:</strong> 21:45 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 27min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/7LvwB3RX/leny.png" alt="Leny">
+                        <div class="pelicula-info">
+                            <p class="titulo">Leny</p>
+                            <p><strong>Lanzamiento:</strong> 27 de Julio de 2017</p>
+                            <p><strong>Hora:</strong> 18:30 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 30min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/yNFB2J4K/2-tontos.png" alt="2 Tontos Muy Tontos">
+                        <div class="pelicula-info">
+                            <p class="titulo">2 Tontos Muy Tontos</p>
+                            <p><strong>Lanzamiento:</strong> 16 de Diciembre de 1994</p>
+                            <p><strong>Hora:</strong> 20:15 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 47min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/2SrP30gs/payaso-it.png" alt="It 2">
+                        <div class="pelicula-info">
+                            <p class="titulo">It 2</p>
+                            <p><strong>Lanzamiento:</strong> 06 de Septiembre de 2019</p>
+                            <p><strong>Hora:</strong> 22:45 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 2h 49min</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="pelicula-recien-agregada">
+                    <a href="#">
+                        <img src="https://i.postimg.cc/7YyRQBP5/desastre-pelicula.png" alt="Desastre: La Película">
+                        <div class="pelicula-info">
+                            <p class="titulo">Desastre: La Película</p>
+                            <p><strong>Lanzamiento:</strong> 13 de Abril de 2006</p>
+                            <p><strong>Hora:</strong> 19:15 (GMT-5)</p>
+                            <p><strong>Duración:</strong> 1h 31min</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-link">
+            <a href="admin.html">Acceso Administrador</a>
+        </div>
+
+        <script>
+            // Mostrar contenido después de 5 segundos (ajuste para la animación)
+            setTimeout(() => {
+                document.querySelector('.intro-screen').style.display = 'none';
+                document.querySelector('.main-content').style.display = 'block';
+            }, 5000);
+
+            const peliculasOriginales = [
+                {
+                    title: "Intensamente 2",
+                    image: "https://i.postimg.cc/DfH1cd7w/o3413284-16754682.png",
+                    link: "#",
+                    lanzamiento: "19 de Junio de 2024",
+                    hora: "21:00 (GMT-5)",
+                    duracion: "1h 36min"
+                },
+                {
+                    title: "¿Y dónde están las rubias?",
+                    image: "https://i.postimg.cc/rsrWDzWH/rubias.png",
+                    link: "#",
+                    lanzamiento: "04 de Junio de 2004",
+                    hora: "19:30 (GMT-5)",
+                    duracion: "1h 49min"
+                },
+                {
+                    title: "Virus",
+                    image: "https://i.postimg.cc/Pfg1hc0M/virus.png",
+                    link: "#",
+                    lanzamiento: "13 de Febrero de 2020",
+                    hora: "20:00 (GMT-5)",
+                    duracion: "1h 29min"
+                },
+                {
+                    title: "Olé, El Viaje de Ferdinand",
+                    image: "https://i.postimg.cc/J0D3jpwP/ole-viaje-de-ferdinad.png",
+                    link: "#",
+                    lanzamiento: "15 de Diciembre de 2017",
+                    hora: "18:45 (GMT-5)",
+                    duracion: "1h 48min"
+                },
+                {
+                    title: "Sgt. Stubby: Un héroe muy especial",
+                    image: "https://i.postimg.cc/0Q3DzHjP/sgt-stuby.png",
+                    link: "#",
+                    lanzamiento: "13 de Abril de 2018",
+                    hora: "20:30 (GMT-5)",
+                    duracion: "1h 24min"
+                },
+                {
+                    title: "Un Don Excepcional",
+                    image: "https://i.postimg.cc/WzWKqVrt/un-don-exepcional.png",
+                    link: "#",
+                    lanzamiento: "07 de Abril de 2017",
+                    hora: "21:15 (GMT-5)",
+                    duracion: "1h 41min"
+                },
+                {
+                    title: "En Pie de Guerra",
+                    image: "https://i.postimg.cc/3rj42RdP/en-pie-de-guerra.png",
+                    link: "#",
+                    lanzamiento: "26 de Octubre de 2001",
+                    hora: "19:00 (GMT-5)",
+                    duracion: "2h 1min"
+                },
+                {
+                    title: "Tiburón Toro 2",
+                    image: "https://i.postimg.cc/K8j1XDJ2/tiburon-toro-2.png",
+                    link: "#",
+                    lanzamiento: "16 de Agosto de 2024",
+                    hora: "22:00 (GMT-5)",
+                    duracion: "1h 33min"
+                },
+                {
+                    title: "La Razón de Estar Contigo 1",
+                    image: "https://i.postimg.cc/Y2x0hsP7/la-razon-1.png",
+                    link: "#",
+                    lanzamiento: "27 de Enero de 2017",
+                    hora: "18:00 (GMT-5)",
+                    duracion: "2h 0min"
+                },
+                {
+                    title: "La Razón de Estar Contigo 2",
+                    image: "https://i.postimg.cc/J46hQBmd/la-razon-2.png",
+                    link: "#",
+                    lanzamiento: "10 de Mayo de 2019",
+                    hora: "20:45 (GMT-5)",
+                    duracion: "1h 49min"
+                },
+                {
+                    title: "Terrifier 1",
+                    image: "https://i.postimg.cc/GpYhr7DZ/terrifer-1.png",
+                    link: "#",
+                    lanzamiento: "06 de Octubre de 2016",
+                    hora: "23:00 (GMT-5)",
+                    duracion: "1h 24min"
+                },
+                {
+                    title: "La Exorcista",
+                    image: "https://i.postimg.cc/C5vwJWyf/la-exorcista.png",
+                    link: "#",
+                    lanzamiento: "26 de Diciembre de 1973",
+                    hora: "21:30 (GMT-5)",
+                    duracion: "2h 2min"
+                },
+                {
+                    title: "EL Retador",
+                    image: "https://i.postimg.cc/XvDqpjSG/result-el-retador.jpg",
+                    link: "#",
+                    lanzamiento: "05 de Abril de 2024",
+                    hora: "19:45 (GMT-5)",
+                    duracion: "1h 53min"
+                },
+                {
+                    title: "El Paseo 5",
+                    image: "https://i.postimg.cc/Qdmv7p3H/paseo-5.png",
+                    link: "#",
+                    lanzamiento: "25 de Diciembre de 2015",
+                    hora: "17:30 (GMT-5)",
+                    duracion: "1h 30min"
+                },
+                {
+                    title: "El Paseo 6",
+                    image: "https://i.postimg.cc/6ptyPbf3/result-el-paseo-6.png",
+                    link: "#",
+                    lanzamiento: "25 de Diciembre de 2021",
+                    hora: "20:15 (GMT-5)",
+                    duracion: "1h 35min"
+                },
+                {
+                    title: "El Paseo 7",
+                    image: "https://i.postimg.cc/5ttTS64p/paseo-7.png",
+                    link: "#",
+                    lanzamiento: "25 de Diciembre de 2023",
+                    hora: "18:30 (GMT-5)",
+                    duracion: "1h 40min"
+                },
+                {
+                    title: "vals",
+                    image: "https://i.postimg.cc/15xgG3gD/result-vals.jpg",
+                    link: "#",
+                    lanzamiento: "17 de Abril de 2020",
+                    hora: "22:30 (GMT-5)",
+                    duracion: "1h 58min"
+                },
+                {
+                    title: "Dios Cambió su Vida",
+                    image: "https://i.postimg.cc/BQshCXND/dios-cambio-su-vida.png",
+                    link: "#",
+                    lanzamiento: "01 de Enero de 2025",
+                    hora: "19:15 (GMT-5)",
+                    duracion: "1h 17min"
+                },
+                {
+                    title: "La Pasión de Cristo",
+                    image: "https://i.postimg.cc/T1VgLD5J/result-la-pasion-de-cristo.jpg ",
+                    link: "#",
+                    lanzamiento: "26 de Marzo de 2004",
+                    hora: "20:00 (GMT-5)",
+                    duracion: "2h 7min"
+                },
+                {
+                    title: "Encanto",
+                    image: "https://i.postimg.cc/QCnrc15Q/encanto.png",
+                    link: "#",
+                    lanzamiento: "24 de Noviembre de 2021",
+                    hora: "17:45 (GMT-5)",
+                    duracion: "1h 39min"
+                },
+                {
+                    title: "Un Gran Chico",
+                    image: "https://i.postimg.cc/tCYbpvQ2/un-gran-chico.png",
+                    link: "#",
+                    lanzamiento: "17 de Mayo de 2002",
+                    hora: "21:45 (GMT-5)",
+                    duracion: "1h 41min"
+                },
+                {
+                    title: "Camp Cool Kids",
+                    image: "https://i.postimg.cc/0ySqJ6NS/camp-cool-kids.png",
+                    link: "#",
+                    lanzamiento: "08 de Septiembre de 2017",
+                    hora: "18:15 (GMT-5)",
+                    duracion: "1h 30min"
+                },
+                {
+                    title: "El robo perfecto",
+                    image: "https://i.postimg.cc/BQC2J20q/result-el-robo-perfecto.png",
+                    link: "#",
+                    lanzamiento: "14 de Marzo de 2019",
+                    hora: "20:00 (GMT-5)",
+                    duracion: "1h 37min"
+                },
+                {
+                    title: "El Gran Asalto",
+                    image: "https://i.postimg.cc/fL84hm8G/asalto-al-furgon.png",
+                    link: "#",
+                    lanzamiento: "19 de Febrero de 2004",
+                    hora: "22:15 (GMT-5)",
+                    duracion: "1h 31min"
+                },
+                {
+                    title: "Patos",
+                    image: "https://i.postimg.cc/66GsP2dm/patos.png",
+                    link: "#",
+                    lanzamiento: "22 de Diciembre de 2023",
+                    hora: "19:30 (GMT-5)",
+                    duracion: "1h 31min"},
+                {
+                    title: "Viaje Mágico",
+                    image: "https://i.postimg.cc/0j4LzxRZ/fautland.png",
+                    link: "#",
+                    lanzamiento: "19 de Noviembre de 2020",
+                    hora: "17:00 (GMT-5)",
+                    duracion: "1h 45min"
+                },
+                {
+                    title: "Hacker",
+                    image: "https://i.postimg.cc/zXLs9LKQ/hacker.png",
+                    link: "#",
+                    lanzamiento: "02 de Diciembre de 2016",
+                    hora: "21:00 (GMT-5)",
+                    duracion: "1h 35min"
+                },
+                {
+                    title: "Rebeldes a Los 16",
+                    image: "https://i.postimg.cc/g2snbygK/result-reveldes-a-los-16.jpg",
+                    link: "#",
+                    lanzamiento: "28 de Agosto de 2015",
+                    hora: "18:45 (GMT-5)",
+                    duracion: "1h 32min"
+                },
+                {
+                    title: "Hombre Araña",
+                    image: "https://i.postimg.cc/GtnXV2CW/hombre-ara-a.png",
+                    link: "#",
+                    lanzamiento: "07 de Julio de 2017",
+                    hora: "20:30 (GMT-5)",
+                    duracion: "2h 13min"
+                },
+                {
+                    title: "Perro Rokero 2",
+                    image: "https://i.postimg.cc/tJ8MX5WM/perro-rokero-2.png",
+                    link: "#",
+                    lanzamiento: "24 de Mayo de 2019",
+                    hora: "17:15 (GMT-5)",
+                    duracion: "1h 27min"
+                },
+                {
+                    title: "Turistas",
+                    image: "https://i.postimg.cc/nhR7DZrg/result-TURISTAS.jpg",
+                    link: "#",
+                    lanzamiento: "01 de Diciembre de 2006",
+                    hora: "23:15 (GMT-5)",
+                    duracion: "1h 33min"
+                },
+                {
+                    title: "El Voto",
+                    image: "https://i.postimg.cc/V6gwL3kH/el-voto.png",
+                    link: "#",
+                    lanzamiento: "28 de Mayo de 2010",
+                    hora: "19:00 (GMT-5)",
+                    duracion: "1h 44min"
+                },
+                {
+                    title: "Instakiller",
+                    image: "https://i.postimg.cc/J4nrt4J3/instakiller.png",
+                    link: "#",
+                    lanzamiento: "09 de Agosto de 2019",
+                    hora: "21:45 (GMT-5)",
+                    duracion: "1h 27min"
+                },
+                {
+                    title: "Leny",
+                    image: "https://i.postimg.cc/7LvwB3RX/leny.png",
+                    link: "#",
+                    lanzamiento: "27 de Julio de 2017",
+                    hora: "18:30 (GMT-5)",
+                    duracion: "1h 30min"
+                },
+                {
+                    title: "2 Tontos Muy Tontos",
+                    image: "https://i.postimg.cc/yNFB2J4K/2-tontos.png",
+                    link: "#",
+                    lanzamiento: "16 de Diciembre de 1994",
+                    hora: "20:15 (GMT-5)",
+                    duracion: "1h 47min"
+                },
+                {
+                    title: "It 2",
+                    image: "https://i.postimg.cc/2SrP30gs/payaso-it.png",
+                    link: "#",
+                    lanzamiento: "06 de Septiembre de 2019",
+                    hora: "22:45 (GMT-5)",
+                    duracion: "2h 49min"
+                },
+                {
+                    title: "Desastre: La Película",
+                    image: "https://i.postimg.cc/7YyRQBP5/desastre-pelicula.png",
+                    link: "#",
+                    lanzamiento: "13 de Abril de 2006",
+                    hora: "19:15 (GMT-5)",
+                    duracion: "1h 31min"
+                }
+            ];
+
+            // Función para mostrar las películas recién agregadas
+            function mostrarPeliculasRecienAgregadas(peliculas) {
+                const container = document.getElementById('movie-container');
+                container.innerHTML = ''; // Limpiar el contenedor
+
+                peliculas.forEach(pelicula => {
+                    const div = document.createElement('div');
+                    div.classList.add('pelicula-recien-agregada');
+                    div.innerHTML = `
+                        <a href="${pelicula.link}">
+                            <img src="${pelicula.image}" alt="${pelicula.title}">
+                            <div class="pelicula-info">
+                                <p class="titulo">${pelicula.title}</p>
+                                <p><strong>Lanzamiento:</strong> ${pelicula.lanzamiento}</p>
+                                <p><strong>Hora:</strong> ${pelicula.hora}</p>
+                                <p><strong>Duración:</strong> ${pelicula.duracion}</p>
+                            </div>
+                        </a>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            // Filtrar películas
+            function buscarPelicula() {
+                const search = document.getElementById('search').value.toLowerCase();
+                const peliculasFiltradas = peliculasOriginales.filter(pelicula =>
+                    pelicula.title.toLowerCase().includes(search)
+                );
+                mostrarPeliculasRecienAgregadas(peliculasFiltradas);
+            }
+
+            // Mostrar todas las películas inicialmente
+            mostrarPeliculasRecienAgregadas(peliculasOriginales);
+
+            // Función para mostrar/ocultar el menú desplegable
+            function toggleMenu() {
+                const menu = document.getElementById('menuDropdown');
+                menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+            }
+        </script>
+
+    </div>
+
+</body>
+</html>
